@@ -145,6 +145,9 @@ export class FilmEntity implements films {
     description: string;
 
     @ApiProperty()
+    active: boolean;
+
+    @ApiProperty()
     created_at: Date;
 
     @ApiProperty()
