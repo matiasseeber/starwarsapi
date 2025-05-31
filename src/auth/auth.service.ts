@@ -83,8 +83,6 @@ export class AuthService {
         if (!user.verificated_at)
             throw new UnauthorizedException('User not verified');
 
-        user.deleteSensitiveInfo();
-
         const token_payload = {
             id: user.id,
             username: user.username,
@@ -100,7 +98,7 @@ export class AuthService {
         await this.authRepository.createLoginRecord({ user_id: user.id, refresh_token });
 
         return {
-            user,
+            user: token_payload,
             token,
             refresh_token
         };

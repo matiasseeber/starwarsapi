@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { FilmsRepository } from './films.repository';
 import { CreateFilmDto } from './dtos/create-film.dto';
 import { FilmFilterDto } from './dtos/film-filter.dto';
+import { UpdateFilmDto } from './dtos/update-film.dto';
 
 @Injectable()
 export class FilmsService {
@@ -20,4 +21,7 @@ export class FilmsService {
 
     public findOne = async (filter: FilmFilterDto) =>
         this.repository.findOne(filter);
+
+    public update = async (id: number, data: UpdateFilmDto) =>
+        this.repository.update(id, data);
 }

@@ -40,6 +40,7 @@ model films {
   release_date   String?
   opening_crawl  String?
   description    String?
+  active         Boolean          @default(true)
   created_at     DateTime         @default(now())
   updated_at     DateTime         @updatedAt
   film_people    film_people[]
@@ -52,6 +53,7 @@ model films {
 model film_people {
   film_id    Int
   people_id  Int
+  active     Boolean  @default(true)
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
   films      films    @relation(fields: [film_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
@@ -63,6 +65,7 @@ model film_people {
 model film_species {
   film_id    Int
   species_id Int
+  active     Boolean  @default(true)
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
   films      films    @relation(fields: [film_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
@@ -74,6 +77,7 @@ model film_species {
 model film_starships {
   film_id     Int
   starship_id Int
+  active     Boolean  @default(true)
   created_at  DateTime  @default(now())
   updated_at  DateTime  @updatedAt
   films       films     @relation(fields: [film_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
@@ -85,6 +89,7 @@ model film_starships {
 model film_vehicles {
   film_id    Int
   vehicle_id Int
+  active     Boolean  @default(true)
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
   films      films    @relation(fields: [film_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
@@ -96,6 +101,7 @@ model film_vehicles {
 model film_planets {
   film_id    Int
   planet_id  Int
+  active     Boolean  @default(true)
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
   films      films    @relation(fields: [film_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
