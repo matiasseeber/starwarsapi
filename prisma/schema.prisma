@@ -1,0 +1,150 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model users {
+  id                        Int       @id @default(autoincrement())
+  username                  String    @unique @db.VarChar(50)
+  email                     String    @unique @db.VarChar(100)
+  password                  String?   @db.VarChar(256)
+  verification_code         String?   @db.VarChar(20)
+  verificated_at            DateTime? @db.Timestamp(6)
+  verification_code_sent_at DateTime? @db.Timestamp(6)
+  created_at                DateTime  @default(now()) @db.Timestamp(6)
+  updated_at                DateTime  @updatedAt @db.Timestamp(6)
+  is_admin                  Boolean   @default(false)
+  logins                    logins[]
+
+  @@unique([username, email], map: "unique_username_email")
+}
+
+model logins {
+  id            Int      @id @default(autoincrement())
+  user_id       Int
+  refresh_token String   @db.VarChar(30)
+  created_at    DateTime @default(now()) @db.Timestamp(6)
+  users         users    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model films {
+  id             Int              @id @default(autoincrement())
+  producer       String?
+  title          String?
+  episode_id     Int?
+  director       String?
+  release_date   String?
+  opening_crawl  String?
+  description    String?
+  created_at     DateTime         @default(now())
+  updated_at     DateTime         @updatedAt
+  film_people    film_people[]
+  film_species   film_species[]
+  film_starships film_starships[]
+  film_vehicles  film_vehicles[]
+  film_planets   film_planets[]
+}
+
+model film_people {
+  film_id    Int
+  people_id  Int
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  films      films    @relation(fields: [film_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  people     people   @relation(fields: [people_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([film_id, people_id])
+}
+
+model film_species {
+  film_id    Int
+  species_id Int
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  films      films    @relation(fields: [film_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  species    species  @relation(fields: [species_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([film_id, species_id])
+}
+
+model film_starships {
+  film_id     Int
+  starship_id Int
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
+  films       films     @relation(fields: [film_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  starships   starships @relation(fields: [starship_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([film_id, starship_id])
+}
+
+model film_vehicles {
+  film_id    Int
+  vehicle_id Int
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  films      films    @relation(fields: [film_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  vehicles   vehicles @relation(fields: [vehicle_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([film_id, vehicle_id])
+}
+
+model film_planets {
+  film_id    Int
+  planet_id  Int
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  films      films    @relation(fields: [film_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  planets    planets  @relation(fields: [planet_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([film_id, planet_id])
+}
+
+model people {
+  id          Int           @id @default(autoincrement())
+  name        String
+  url         String
+  created_at  DateTime      @default(now())
+  updated_at  DateTime      @updatedAt
+  film_people film_people[]
+}
+
+model planets {
+  id           Int            @id @default(autoincrement())
+  name         String
+  url          String
+  created_at   DateTime       @default(now())
+  updated_at   DateTime       @updatedAt
+  film_planets film_planets[]
+}
+
+model species {
+  id           Int            @id @default(autoincrement())
+  name         String
+  url          String
+  created_at   DateTime       @default(now())
+  updated_at   DateTime       @updatedAt
+  film_species film_species[]
+}
+
+model starships {
+  id             Int              @id @default(autoincrement())
+  name           String
+  url            String
+  created_at     DateTime         @default(now())
+  updated_at     DateTime         @updatedAt
+  film_starships film_starships[]
+}
+
+model vehicles {
+  id            Int             @id @default(autoincrement())
+  name          String
+  url           String
+  created_at    DateTime        @default(now())
+  updated_at    DateTime        @updatedAt
+  film_vehicles film_vehicles[]
+}
