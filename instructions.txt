@@ -2,8 +2,9 @@ Instructions
 
 1. Have postgresql installed in the machine
 2. Run the following commands
-    a. Run npx prisma generate
-    b. Run npx prisma migrate deploy
+    a. npm install
+    b. Run npx prisma generate
+    c. Run npx prisma migrate deploy
 3. Create a .env file in the root directory and add the variables as shown in .example.env
 4. To run the project run the following command
     a. npm run start:dev
